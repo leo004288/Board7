@@ -1,0 +1,21 @@
+Lombok -> Dto의 생성자, Getter/Setter, ToString 자동으로 생성
+
+설치
+	1번 방법 - version 영향을 받음 - 버전에 따라 에러
+		https://projectlombok.org/download -> 실행 -> sts경로 찾기 -> install
+	결과	
+		SpringToolsForEclipse.exe 위치에 lombok.jar 복사
+		SpringToolsForEclipse.ini 파일에 -javaagent:D:\sts-5.0.1.RELEASE\lombok.jar
+
+	2번 방법 - 에러가 적음
+		https://projectlombok.org/setup/eclipse 참고
+		SpringToolsForEclipse.exe -> Help 메뉴 -> install new software
+ 		-> https://projectlombok.org/p2
+ 		-> 나중에 나오는 창에 3개 체크
+ 
+ 
+ build.gradle에 추가
+ // lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+ 
