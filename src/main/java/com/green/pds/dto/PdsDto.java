@@ -1,10 +1,8 @@
 package com.green.pds.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-
 public class PdsDto {
 	// Board 자료
 	private int    idx;
