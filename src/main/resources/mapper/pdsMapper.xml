@@ -18,16 +18,20 @@
 	    </if> 
 	</where> 
 	</select>
-	
+
 <!-- getPdsList -->
 	<select id="getPdsList">
 	SELECT   IDX,
 	         MENU_id,
 	         TITLE,
 	         WRITER,
-	         TO_CHAR(REGDATE, 'YYYY-MM-DD')  REGDATE,   
+			 (
+		        SELECT COUNT(FILE_NUM) FROM FILES F
+		        WHERE B.IDX = F.IDX
+		     )                                                    filescount,
+	         TO_CHAR(REGDATE, 'YYYY-MM-DD')                       REGDATE,   
 	         HIT
-	FROM     BOARD
+	FROM     BOARD B
 	<where>
 		<if test="menu_id != null and menu_id != ''">
 	      AND MENU_ID = #{ menu_id }   
@@ -38,8 +42,7 @@
 	    </if> 
 	</where>   
 	ORDER BY IDX DESC
-	OFFSET   #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY
+	OFFSET   #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
 	</select>
-
 	
 </mapper>

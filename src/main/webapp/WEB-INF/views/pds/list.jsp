@@ -26,11 +26,12 @@
 		}
 
 	#list {
-	td:nth-of-type(1) {width:100px;}
-	td:nth-of-type(2) {width:300px;}
-	td:nth-of-type(3) {width:100px;}
-	td:nth-of-type(4) {width:100px;}
-	td:nth-of-type(5) {width:100px;}
+	td:nth-of-type(1) {width:100px;}  /* 번호 */
+	td:nth-of-type(2) {width:340px;}  /* 제목 */
+	td:nth-of-type(3) {width:100px;}  /* 글쓴이 */
+	td:nth-of-type(4) {width:80px;}   /* 파일수 */
+	td:nth-of-type(5) {width:100px;}  /* 날짜 */
+	td:nth-of-type(6) {width:80px;}   /* 조회수 */
 	}
 	
 	tr:first-of-type {
@@ -88,38 +89,39 @@
 <body>
 	<main>
 	  <%@include file="/WEB-INF/include/menuspdspaging.jsp" %>	
-	  <h2><b id="mname">${menu.menu_name}</b>게시물 목록</h2>
-	  <h3>${menu_name} 게시판</h3>
+	  <h2><b id="mname"></b>자료실</h2>
 	  <table id="list">
 	  
 	  	<tr>
 	  	  <td>번호</td>
 	  	  <td>제목</td>
 	  	  <td>글쓴이</td>
+	  	  <td>파일수</td>
 	  	  <td>날짜</td>
 	  	  <td>조회수</td>
 	  	</tr>
 	  	
 	  	<tr>
-	  	  <td colspan="5">
-	  	    [<a href="/BoardPaging/WriteForm?menu_id=${menu_id}&nowpage=${nowpage}">새 글 등록</a>]&nbsp;&nbsp;&nbsp;
+	  	  <td colspan="6">
+	  	    [<a href="/Pds/WriteForm?menu_id=${map.menu_id}&nowpage=${map.nowpage}">새 글 등록</a>]&nbsp;&nbsp;&nbsp;
 	  	    [<a href="/">Home</a>]
 	  	  </td>
 	  	</tr>
 	  	
-	  	<c:forEach var="board" items="${boardList}">
+	  	<c:forEach var="pds" items="${pdsList}">
 	  	<tr>
-	  	  <td> ${ board.idx     } </td>       
-	  	  <td class="title"> <a href="/BoardPaging/View?idx=${board.idx}&menu_id=${board.menu_id}&nowpage=${nowpage}">${ board.title }</a> </td>
-	  	  <td> ${ board.writer  } </td>
-	  	  <td> ${ board.regdate } </td>
-	  	  <td> ${ board.hit     } </td>
+	  	  <td> ${ pds.idx        } </td>       
+	  	  <td class="title"> <a href="/Pds/View?idx=${pds.idx}&menu_id=${map.menu_id}&nowpage=${map.nowpage}">${ pds.title }</a> </td>
+	  	  <td> ${ pds.writer     } </td>
+	  	  <td> ${ pds.filescount } </td>
+	  	  <td> ${ pds.regdate    } </td>
+	  	  <td> ${ pds.hit        } </td>
 	  	</tr>
 	  	</c:forEach>
 	  </table>
 	  	
 	  	<form action="/BoardPaging/List" >
-	  <input type="hidden" name="menu_id" value="${ menu_id }" />	  
+	  <input type="hidden" name="menu_id" value="${ map.menu_id }" />	  
 	  <input type="hidden" name="nowpage" value="1" />	  
 	  <div id="search">
 	    <select name="searchType">
@@ -127,7 +129,7 @@
 	      <option value="content">내용</option> 
 	      <option value="writer">작성자</option> 
 	    </select>
-	    <input type="text" name="keyword" />
+	    <input type="text" name="keyword" value="${map.keyword}"/>
 	    <input type="submit" value="검색" />	    
 	  </div>
 	  </form>
