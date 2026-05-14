@@ -19,17 +19,11 @@ import com.green.paging.mapper.BoardPagingMapper;
 @RequestMapping("/BoardPaging")
 public class BoardPagingController {
 
-    private final WebMvcConfig webMvcConfig;
-
 	@Autowired
 	private MenuMapper menuMapper;
 	
 	@Autowired
 	private BoardPagingMapper boardPagingMapper;
-
-    BoardPagingController(WebMvcConfig webMvcConfig) {
-        this.webMvcConfig = webMvcConfig;
-    }
 
 	// /BoardPaging/List?menu_id=MENU01&nowpage=1
 	@RequestMapping("/List")
@@ -42,8 +36,8 @@ public class BoardPagingController {
 		
 		// 게시물 목록 조회 (페이징해서)
 		// 해당 메뉴의 자료갯수 : 
-		int totalcount = boardPagingMapper.count(boarddto, searchType, keyword);  // menu_id
-		System.out.println("totcount:" + totalcount);
+		int totalCount = boardPagingMapper.count(boarddto, searchType, keyword);  // menu_id
+		System.out.println("totCount:" + totalCount);
 		
 //		PagingResponse<BoardDto> response = null;
 //		if(totalcount < 1) {  // 현재 menu_id로 조회한 자료가 없다면
@@ -59,7 +53,7 @@ public class BoardPagingController {
 		searchdto.setPageSize(10);    // paging.jsp 에 한줄에 출력될 페이지 번호 수
 		
 		//  pagination 설정
-		Pagination pagination = new Pagination(totalcount, searchdto);
+		Pagination pagination = new Pagination(totalCount, searchdto);
 		searchdto.setPagination(pagination);
 		
 		// 검색 조건 추가
