@@ -119,25 +119,25 @@
 		}
 		
 		// 파일입력창 추가
-// 		const btnAddFileEl = document.querySelector("#btnAddFile")
-// 		const tdfileEl     = document.querySelector("#tdfile") 
-// 		btnAddFileEl.addEventListener('click', function() {
-// 			tdfileEl.innerHTML += '<input type="file" name="upfile" class="upfile" value="upfile" multiple><br>'
-// 		})
-		
 		const btnAddFileEl = document.querySelector("#btnAddFile")
-		const tdfileEl     = document.querySelector("#tdfile")
-		let   tag          = '<input type="file" name="upfile" class="upfile" value="upfile" multiple><br>'
-		let   html         = tdfileEl.innerHTML
-// 		js에서 실행할때 새로 추가된 버튼은 이벤트가 한번만 작동
-// 		해결 : 이벤트를 부모 element에 설정
-		btnAddFileEl.addEventListener('click', function(e) { 
-			console.dir(e.target)  // #btnAddFile, .upfile
-			if(e.target.id == 'btnAddFile') {
-			html              += tag
-			tdfileEl.innerHTML = html
-			}
+		const tdfileEl     = document.querySelector("#tdfile") 
+		btnAddFileEl.addEventListener('click', function() {
+			tdfileEl.innerHTML += '<input type="file" name="upfile" class="upfile" value="upfile" multiple><br>'
 		})
+		
+// 		const btnAddFileEl = document.querySelector("#btnAddFile")
+// 		const tdfileEl     = document.querySelector("#tdfile")
+// 		let   tag          = '<input type="file" name="upfile" class="upfile" value="upfile" multiple><br>'
+// 		let   html         = tdfileEl.innerHTML
+// // 		js에서 실행할때 새로 추가된 버튼은 이벤트가 한번만 작동
+// // 		해결 : 이벤트를 부모 element에 설정
+// 		btnAddFileEl.addEventListener('click', function(e) { 
+// 			console.dir(e.target)  // #btnAddFile, .upfile
+// 			if(e.target.id == 'btnAddFile') {
+// 			html              += tag
+// 			tdfileEl.innerHTML = html
+// 			}
+// 		})
 		
 		// 입력항목 체크
 		
