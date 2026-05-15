@@ -133,11 +133,14 @@ public class PdsController {
 		// db로 넘기기
 		pdsService.setWriter(map, uploadfiles);
 		
+		String menu_id = String.valueOf( map.get("menu_id") );
+		int    nowpage = Integer.parseInt( String.valueOf( map.get("nowpage") ) );
+		
 		// 
 		ModelAndView mv  = new ModelAndView();
 		String       loc = """
 				redirect:/Pds/List?menu_id=%s&nowpage=%d
-				""".formatted(map.get("menu_id"), map.get("nowpage"));
+				""".formatted(menu_id, nowpage);
 		mv.setViewName(loc);
 		return mv;
 	}

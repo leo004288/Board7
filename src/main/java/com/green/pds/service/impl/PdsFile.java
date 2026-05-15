@@ -1,8 +1,15 @@
 package com.green.pds.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,22 +46,67 @@ public class PdsFile {
 					: orgName.substring( orgName.lastIndexOf("."))       // .txt		
 					;
 			
+			System.out.println("pdsFile:" + orgName + ":" + fileExt);
 			// 날짜 폴더 생성
+			String folderPath = makeFolder(uploadPath);
 			
-			// 파일 중복 방지
-			// 중복되지 않는 고유한 문자열 생성
+			// 파일 중복 방지 : 같은 폴더에 같은 파일을 저장하면 마지막 저장된 파일로 변경
+			// 중복되지 않는 고유한 문자열 생성 : UUID
+			String uuid = UUID.randomUUID().toString();
 			
 			// 저장할 sfilename 생성
-
+			String saveName  = uploadPath + File.separator
+					         + folderPath + File.separator
+					         + uuid       + "." + fileName;  // 실제 저장될 파일명
+			String saveName2 = folderPath + File.separator 
+    					     + uuid       + "." + fileName;  // sfilename
+			
+			Path   savePath  = Paths.get(saveName);
+			// Paths.get() : 특정 경로의 파일정보를 가져온다   
+			
 			// 파일저장
+			try {
+				uploadfile.transferTo(savePath);   // 저장
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
-			// FilesDto 에 파일 정보를 저장
+			// 저장된 파일의 정보를 FilesDto 에 저장
+			FilesDto dto = new FilesDto(0, 0, fileName, fileExt, saveName2);
 			
-			// fileList.add(FilesDto)
-		}
+			// fileList 애 추가
+			fileList.add(dto);
+		} // for 종료
 		
-		// map에 fileList 정보를 추가
+		// map에 fileList 정보를 추가 -> 값을 서비스로 돌려주기 위해 map 에 보관
+		map.put("fileList", fileList);
 		
+	}
+	
+	// 날짜 폴더 생성 d:\\dev\\springboot\\data\\2026\\05\\15
+	private static String makeFolder(String uploadPath) {
+		// d:\\dev\\springboot\\data + \\2026\\05\\15
+		// uploadPath                + folderPath
+		
+		String dateStr          = LocalDate.now().format(
+				DateTimeFormatter.ofPattern("yyyy/MM/dd")
+				); 
+		System.out.println("dateStr" + dateStr);
+		
+		// File.separator : win("\\"), linux,mac("/")
+		String folderPath       = dateStr.replace("/", File.separator);
+		
+		// 날짜 폴더를 생성 : d:\\dev\\springboot\\data\\2026\\05\\15
+		File   uploadPathFolder = new File(uploadPath, folderPath); 
+		
+		if(!uploadPathFolder.exists())
+		uploadPathFolder.mkdirs();        // 폴더생성 make directory    
+		// mkdir()  : 상위 폴더가 없으면 폴더 생성 실패  
+		// mkdirs() : 상위 폴더가 없으면 폴더 전체 생성
+		
+		return folderPath;
 	}
 
 } //

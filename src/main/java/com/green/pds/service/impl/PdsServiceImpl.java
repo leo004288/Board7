@@ -16,7 +16,7 @@ import com.green.pds.service.PdsService;
 public class PdsServiceImpl implements PdsService {
 	
 	// @Value가 application.properties에 있는 변수 가지고옴 
-	@Value("{part1.upload-path}")
+	@Value("${part1.upload-path}")
 	private String uploadPath;
 	
 	@Autowired
