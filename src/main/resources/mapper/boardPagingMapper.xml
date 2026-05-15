@@ -41,7 +41,7 @@
 	OFFSET   #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY
 	</select>
 	
-<!-- BoardPagingList -->
+<!--getBoard (view)-->
 	<select id="getBoard">
 	SELECT  IDX,
 	        MENU_ID,

@@ -17,9 +17,15 @@ public class PdsServiceImpl implements PdsService {
 	private PdsMapper pdsMapper;
 	
 	@Override
-	public List<PdsDto> getPdslist(HashMap<String, Object> map) {
+	public List<PdsDto> getPdsList(HashMap<String, Object> map) {
 		List<PdsDto> pdsList = pdsMapper.getPdsList(map); 
 		return pdsList;
+	}
+
+	@Override
+	public List<PdsDto> getPds(HashMap<String, Object> map) {
+		List<PdsDto> pds = pdsMapper.getPdsList(map); 
+		return pds;
 	}
 	
 }

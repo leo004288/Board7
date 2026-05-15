@@ -7,6 +7,8 @@ import com.green.pds.dto.PdsDto;
 
 public interface PdsService {
 
-	List<PdsDto> getPdslist(HashMap<String, Object> map);
+	List<PdsDto> getPdsList(HashMap<String, Object> map);
+
+	List<PdsDto> getPds(HashMap<String, Object> map);
 
 }

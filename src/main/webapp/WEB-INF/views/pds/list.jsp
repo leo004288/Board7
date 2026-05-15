@@ -120,7 +120,7 @@
 	  	</c:forEach>
 	  </table>
 	  	
-	  	<form action="/BoardPaging/List" >
+	  	<form action="/Pds/List" >
 	  <input type="hidden" name="menu_id" value="${ map.menu_id }" />	  
 	  <input type="hidden" name="nowpage" value="1" />	  
 	  <div id="search">
@@ -139,11 +139,28 @@
 	</main>
 	
 	<script>
-	
+		
+		// 현재 게시물
 		const mnameEl     = document.querySelector('#mname')
 		let   menunameEl  = document.querySelector('.menu .active')
 		
 		mnameEl.innerHTML = menunameEl.innerHTML
+		
+		// searchType 유지
+		let curSearchType = '${map.searchType}'              // 서버변수
+		const optionEls   = document.querySelectorAll('option')
+		let index         = 0
+		switch(curSearchType) {
+		case "" :
+		case "title"   : index = 0; break;
+		case "content" : index = 1; break;
+		case "writer"  : index = 2; break;
+		}
+		optionEls[index].selected = true;
+		
+// 		let qry           = "[value=`\${curSearchType}`]"
+// 		const optionEl    = document.querySelector(qry)
+// 		alert(optionEl.value)
 		
 	</script>
 </body>

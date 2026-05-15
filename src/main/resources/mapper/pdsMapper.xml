@@ -45,4 +45,21 @@
 	OFFSET   #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
 	</select>
 	
+<!-- getPds view-->
+	<select id="getPds">
+	SELECT  IDX,
+	        MENU_id,
+	        TITLE,
+	        WRITER,
+	        CONTENT,
+		    (
+		       SELECT COUNT(FILE_NUM) FROM FILES F
+		       WHERE B.IDX = F.IDX
+		    )                                                    filescount,
+	        TO_CHAR(REGDATE, 'YYYY-MM-DD')                       REGDATE,   
+	        HIT
+	  FROM  BOARD B
+	  WHERE IDX = ${idx}
+	</select>	
+	
 </mapper>

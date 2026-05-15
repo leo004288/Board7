@@ -38,11 +38,13 @@ public class PdsController {
 		// 메뉴목록조회
 		List<MenuDTO> menuList = menuMapper.getMenuList();
 		
+		// 페이징 시작
 		// 자료실 목록 조회 (10개씩)
 		// 해당 메뉴의 전체 자료수
 		int totalCount = pdsMapper.count(map); // menus_id, searchType, keyword
 		System.out.println("totalCount:" + totalCount);		
 		
+		// 현재 페이지 정보 : map{nowpage=1}  Object -> String -> int
 		int nowpage = Integer.parseInt( String.valueOf(map.get("nowpage")) );
 		
 		// 페이징을 위한 설정
@@ -59,11 +61,10 @@ public class PdsController {
 		int numOfRows = searchDto.getNumOfRows();
 		map.put("offset", offset);
 		map.put("numOfRows", numOfRows);
-		
-		System.out.println("map2:" + map);
+		// 페이징 끝
 		
 		// 자료조회
-		List<PdsDto> pdsList = pdsService.getPdslist(map);
+		List<PdsDto> pdsList = pdsService.getPdsList(map);
 		
 		// 
 		ModelAndView mv = new ModelAndView();
@@ -81,10 +82,11 @@ public class PdsController {
 	@RequestMapping("/View")
 	public ModelAndView view(@RequestParam HashMap<String, Object> map) {
 		
-		//
+		// 메뉴목록조회
 		List<MenuDTO> menuList = menuMapper.getMenuList();
 		
 		// 넘겨줄 pdsDto 정보를 조회 idx
+		List<PdsDto> pdsList = pdsService.getPds(map);
 		
 		// 넘겨줄 filesDto 정보를 조회 idx
 		
@@ -93,6 +95,7 @@ public class PdsController {
 		mv.setViewName("/pds/view");
 		
 		mv.addObject("menuList", menuList);
+		mv.addObject("pdsList", pdsList);
 		
 		mv.addObject("map", map);		
 		return mv;
@@ -112,6 +115,18 @@ public class PdsController {
 		mv.addObject("menuList", menuList);
 		
 		mv.addObject("map", map);
+		return mv;
+	}
+	
+	// 
+	@RequestMapping("/Write")
+	public ModelAndView write() {
+		
+		// db로 넘기기
+		
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/Pds/List?menu_id=MENU01&nowpage=1");
 		return mv;
 	}
 	
