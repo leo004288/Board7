@@ -87,7 +87,7 @@ public class PdsController {
 		List<MenuDTO> menuList = menuMapper.getMenuList();
 		
 		// 넘겨줄 pdsDto 정보를 조회 idx
-		List<PdsDto> pdsList = pdsService.getPds(map);
+		
 		
 		// 넘겨줄 filesDto 정보를 조회 idx
 		
@@ -96,7 +96,6 @@ public class PdsController {
 		mv.setViewName("/pds/view");
 		
 		mv.addObject("menuList", menuList);
-		mv.addObject("pdsList", pdsList);
 		
 		mv.addObject("map", map);		
 		return mv;
@@ -130,8 +129,11 @@ public class PdsController {
 		System.out.println("map:" + map);
 		System.out.println("uploadfiles:" + uploadfiles);
 		
-		// db로 넘기기
+		// db로 파일넘기기
 		pdsService.setWriter(map, uploadfiles);
+		
+		// 
+		pdsMapper.insertPds(map);
 		
 		String menu_id = String.valueOf( map.get("menu_id") );
 		int    nowpage = Integer.parseInt( String.valueOf( map.get("nowpage") ) );

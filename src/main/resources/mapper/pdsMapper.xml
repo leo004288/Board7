@@ -62,4 +62,10 @@
 	  WHERE IDX = ${idx}
 	</select>	
 	
+<!-- 새글 추가 -->
+	<insert id="insertPds">
+	INSERT INTO BOARD ( IDX, MENU_ID, TITLE, CONTENT, WRITER)
+	VALUES ((SELECT NVL(MAX(IDX), 0)+1 FROM BOARD), #{menu_id}, #{title}, #{content}, #{writer}) 
+	</insert>
+	
 </mapper>

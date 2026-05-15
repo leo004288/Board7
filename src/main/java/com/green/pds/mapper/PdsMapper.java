@@ -15,4 +15,6 @@ public interface PdsMapper {
 
 	List<PdsDto> getPdsList(HashMap<String, Object> map);
 
+	void insertPds(HashMap<String, Object> map);
+
 }
