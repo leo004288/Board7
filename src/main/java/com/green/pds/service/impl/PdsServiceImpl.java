@@ -49,7 +49,6 @@ public class PdsServiceImpl implements PdsService {
 
 	@Override
 	public List<PdsDto> getPds(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
