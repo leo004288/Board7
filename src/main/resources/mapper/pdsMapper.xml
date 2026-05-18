@@ -62,10 +62,29 @@
 	  WHERE IDX = ${idx}
 	</select>	
 	
+<!-- setWrite : Board에 저장 -->
+	<select id="setWrite">
+	 INSERT INTO BOARD (IDX, MENU_ID, TITLE, CONTENT, WRITER)
+	 VALUSE ((SELECT NVL(MAX(IDX),0)+1 FROM BOARD), #{menu_id}, #{title}, #{content}, #{writer})
+	</select>
+	
 <!-- 새글 추가 -->
-	<insert id="insertPds">
+	<insert id="setWrite">
 	INSERT INTO BOARD ( IDX, MENU_ID, TITLE, CONTENT, WRITER)
 	VALUES ((SELECT NVL(MAX(IDX), 0)+1 FROM BOARD), #{menu_id}, #{title}, #{content}, #{writer}) 
+	</insert>
+	
+<!-- setFileWriter : files 에 insert
+	 insert all    : 한줄에 여러줄 insert 할 수있는 명령 -->
+	<insert id="setFileWriter">
+	<foreach collection="fileList"
+	         item      ="file"
+	         index     ="i"
+	         open      ="INSERT ALL"
+	         close     ="SELECT * FROM DUAL"
+	         separator ="">
+		INTO files VALUSE (FILE_NUM, (SELECT MAX(IDX) FROM BOARD), ${file.filename}, ${file.fileext}, ${file.sfilename})
+	</foreach>
 	</insert>
 	
 </mapper>

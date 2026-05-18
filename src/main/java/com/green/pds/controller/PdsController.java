@@ -132,9 +132,6 @@ public class PdsController {
 		// db로 파일넘기기
 		pdsService.setWriter(map, uploadfiles);
 		
-		// 
-		pdsMapper.insertPds(map);
-		
 		String menu_id = String.valueOf( map.get("menu_id") );
 		int    nowpage = Integer.parseInt( String.valueOf( map.get("nowpage") ) );
 		
