@@ -63,27 +63,22 @@
 	</select>	
 	
 <!-- setWrite : Board에 저장 -->
-	<select id="setWrite">
-	 INSERT INTO BOARD (IDX, MENU_ID, TITLE, CONTENT, WRITER)
-	 VALUSE ((SELECT NVL(MAX(IDX),0)+1 FROM BOARD), #{menu_id}, #{title}, #{content}, #{writer})
-	</select>
-	
-<!-- 새글 추가 -->
 	<insert id="setWrite">
 	INSERT INTO BOARD ( IDX, MENU_ID, TITLE, CONTENT, WRITER)
 	VALUES ((SELECT NVL(MAX(IDX), 0)+1 FROM BOARD), #{menu_id}, #{title}, #{content}, #{writer}) 
 	</insert>
 	
 <!-- setFileWriter : files 에 insert
-	 insert all    : 한줄에 여러줄 insert 할 수있는 명령 -->
+	 insert all    : 한줄에 여러줄 insert 할 수있는 명령 
+	 (SELECT NVL(MAX(FILE_NUM), 0)+1 FROM FILES) -> 한번만 실행 : 무결성 제약 조건 에러 -->
 	<insert id="setFileWriter">
 	<foreach collection="fileList"
 	         item      ="file"
 	         index     ="i"
 	         open      ="INSERT ALL"
 	         close     ="SELECT * FROM DUAL"
-	         separator ="">
-		INTO files VALUSE (FILE_NUM, (SELECT MAX(IDX) FROM BOARD), ${file.filename}, ${file.fileext}, ${file.sfilename})
+	         separator =" ">
+		INTO files VALUES ((SELECT NVL(MAX(FILE_NUM), 0) FROM FILES) +#{i} +1, (SELECT MAX(IDX) FROM BOARD), #{file.filename}, #{file.fileext}, #{file.sfilename})
 	</foreach>
 	</insert>
 	

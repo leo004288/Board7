@@ -56,7 +56,7 @@ public class PdsServiceImpl implements PdsService {
 		pdsMapper.setWrite(map); // insertBoard
 		
 		// 2-1. Files 에 저장
-		List<FilesDto> fileList = (List<FilesDto>) map.get("filesList");
+		List<FilesDto> fileList = (List<FilesDto>) map.get("fileList");
 		if( fileList.size() > 0 )
 			pdsMapper.setFileWriter(map);
 		
