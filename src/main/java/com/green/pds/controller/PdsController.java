@@ -173,7 +173,7 @@ public class PdsController {
 	// 파일 다운로드 
 	// 서버에서 바이너리데이터를 다운받는다 : data 덩어리
     // /Pds/filedownload/2
-	@RequestMapping("/fileDownload/{file_num}")
+	@RequestMapping("/FileDownload/{file_num}")
 	@ResponseBody                                        // 내려주는 것은 data다
 	public void filedownload( 
 			HttpServletResponse  res,
@@ -228,8 +228,8 @@ public class PdsController {
 					URLEncoder.encode(
 					(String) fileInfo.getFilename(), "UTF-8") + "\";");
 		response.setHeader("Content-Transfer-encoding", "binary");
-//		response.setHeader("Content-Type", "application/download; utf-8");       // hwp  연결프로그램작동
-		response.setHeader("Content-Type", "application/octet-stream; utf-8");   // 무조건다운로드
+		response.setHeader("Content-Type", "application/download; utf-8");       // hwp  연결프로그램작동
+//		response.setHeader("Content-Type", "application/octet-stream; utf-8");   // 무조건다운로드
 		response.setHeader("Pragma", "no-cache;");
 		response.setHeader("Expires", "-1");
 	}

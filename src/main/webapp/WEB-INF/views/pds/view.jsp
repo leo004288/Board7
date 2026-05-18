@@ -122,7 +122,7 @@
         <td colspan="3" id="tdfile">
 		 <c:forEach var="file" items="${fileList}">
 		 	<div> 
-				<a href="/Pds/filedownload/${file.file_num}">${file.filename}</a>			 	
+				<a href="/Pds/FileDownload/${file.file_num}">${file.filename}</a>			 	
 		 	</div>
 		 </c:forEach>
 		</td>
