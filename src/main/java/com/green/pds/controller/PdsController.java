@@ -1,12 +1,18 @@
 package com.green.pds.controller;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,14 +20,20 @@ import com.green.menus.dto.MenuDTO;
 import com.green.menus.mapper.MenuMapper;
 import com.green.paging.dto.Pagination;
 import com.green.paging.dto.SearchDto;
+import com.green.pds.dto.FilesDto;
 import com.green.pds.dto.PdsDto;
 import com.green.pds.mapper.PdsMapper;
 import com.green.pds.service.PdsService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/Pds")
 public class PdsController {
 
+	@Value("${part1.upload-path}")
+	private String uploadPath;
+	
 	@Autowired
 	private MenuMapper menuMapper;
 	
@@ -86,16 +98,23 @@ public class PdsController {
 		// 메뉴목록조회
 		List<MenuDTO> menuList = menuMapper.getMenuList();
 		
-		// 넘겨줄 pdsDto 정보를 조회 idx
+		// 조회수 증가
+		pdsService.setReadCountUpdate(map);
 		
+		// 넘겨줄 pdsDto 정보를 조회 idx
+		PdsDto pdsDto = pdsService.getPds(map);
 		
 		// 넘겨줄 filesDto 정보를 조회 idx
+		List<FilesDto> fileList = pdsService.getFileList(map);
 		
 		//
 		ModelAndView mv = new ModelAndView(); 
 		mv.setViewName("/pds/view");
 		
 		mv.addObject("menuList", menuList);
+
+		mv.addObject("pds", pdsDto);               // 게시물정보 
+		mv.addObject("fileList", fileList);        // 게시물정보 (파일) 
 		
 		mv.addObject("map", map);		
 		return mv;
@@ -142,6 +161,44 @@ public class PdsController {
 				""".formatted(menu_id, nowpage);
 		mv.setViewName(loc);
 		return mv;
+	}
+	
+	// 파일 다운로드 
+	// 서버에서 바이너리데이터를 다운받는다 : data 덩어리
+    // /Pds/filedownload/2
+	@RequestMapping("/FileDownload/{file_num}")
+	@ResponseBody                                        // 내려주는 것은 data다
+	public void filedownload( 
+			HttpServletResponse  res,
+			@PathVariable(value="file_num") long file_num
+			) {
+        // HttpServletResponse 객체를 사용하면 return 문 없이도 data 를 서버 -> 클라이언트로 보낼수 있음
+		
+		FilesDto fileInfo = pdsService.getFileInfo(file_num);
+		
+		// 파일경로 : 다운로드할 파일의 경로 생성
+		Path saveFilePath = Paths.get(
+				uploadPath
+				+ File.separator
+				+ fileInfo.getSfilename()
+				);
+	
+		// http 헤더 설정 : 클라이언트 브라우저에게 주는 정보
+		setFileHeader(res, fileInfo);
+		
+		// 파일 복사 -> 함수 (서버 -> 클라이언트) : 실제 다운로드
+		fileCopy(res, saveFilePath);
+		
+	}
+
+	private void fileCopy(HttpServletResponse res, Path saveFilePath) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setFileHeader(HttpServletResponse res, FilesDto fileInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

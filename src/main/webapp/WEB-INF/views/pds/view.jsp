@@ -93,44 +93,50 @@
 <body> 
   <main>
     <!-- 메뉴 출력 -->
-    <%@include file="/WEB-INF/include/menuspaging.jsp" %>
+    <%@include file="/WEB-INF/include/menuspdspaging.jsp" %>
     
-    <h2 class="h2"><b id="mname"></b>게시글 내용 보기</h2>
+    <h2 class="h2"><b id="mname"></b>자료실 보기</h2>
      <table id="table1">
       <tr>
         <td>글 번호</td>
-        <td>${map.idx}</td>
+        <td>${pds.idx}</td>
         <td>조회수</td>
-        <td>${map.hit}</td>      
+        <td>${pds.hit}</td>      
       </tr>
       <tr>
         <td>작성자</td>
-        <td>${map.writer}</td>
+        <td>${pds.writer}</td>
         <td>작성일</td>
-        <td>${map.regdate}</td>      
+        <td>${pds.regdate}</td>      
       </tr>
       <tr>
         <td>제목</td>
-        <td colspan="3">${ map.title }</td>
+        <td colspan="3">${ pds.title }</td>
       </tr>
       <tr>
         <td>내용</td>
-        <td colspan="3">${ map.content }</td>
+        <td colspan="3">${ pds.content }</td>
       </tr>
       <tr>
-      	<td>파일</td>
-      	<td colspan="3">${ map.filescount }</td>
+        <td>파일</td>
+        <td colspan="3" id="tdfile">
+		 <c:forEach var="file" items="${fileList}">
+		 	<div> 
+				<a href="/Pds/filedownload/${file.file_num}">${file.filename}</a>			 	
+		 	</div>
+		 </c:forEach>
+		</td>
       </tr>
       <tr>
         <td colspan="4">
-          <a href="/Pds/WriteForm?menu_id=${board.menu_id}&nowpage=${nowpage}" class="btn btn-primary">새글쓰기</a>
+          <a href="/Pds/WriteForm?menu_id=${map.menu_id}&nowpage=${map.nowpage}" class="btn btn-primary">새글쓰기</a>
           
-          <c:if test="${ sessionScope.login.userid eq board.writer }">
-          <a href="/Pds/UpdateForm?idx=${board.idx}&menu_id=${board.menu_id}&nowpage=${nowpage}" class="btn btn-warning">수정</a>
-          <a href="/Pds/Delete?idx=${board.idx}&menu_id=${board.menu_id}&nowpage=${nowpage}" class="btn btn-danger">삭제</a>
-          </c:if>
+<%--           <c:if test="${ sessionScope.login.userid eq board.writer }"> --%>
+          <a href="/Pds/UpdateForm?idx=${map.idx}&menu_id=${map.menu_id}&nowpage=${map.nowpage}" class="btn btn-warning">수정</a>
+          <a href="/Pds/Delete?idx=${map.idx}&menu_id=${map.menu_id}&nowpage=${map.nowpage}" class="btn btn-danger">삭제</a>
+<%--           </c:if> --%>
           
-          <a href="/Pds/List?menu_id=${board.menu_id}&nowpage=${nowpage}" class="btn btn-info">목록</a>
+          <a href="/Pds/List?menu_id=${map.menu_id}&nowpage=${map.nowpage}" class="btn btn-info">목록</a>
           <a href="/" class="btn btn-success">Home</a>
         </td>
       </tr>

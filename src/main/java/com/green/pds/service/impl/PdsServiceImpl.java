@@ -61,11 +61,33 @@ public class PdsServiceImpl implements PdsService {
 			pdsMapper.setFileWriter(map);
 		
 	}
-
+    
+	// 조회수 증가
 	@Override
-	public List<PdsDto> getPds(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setReadCountUpdate(HashMap<String, Object> map) {
+		pdsMapper.setReadCountUpdate(map);
+		
+	}
+	
+	// 자료실 게시글(idx)을 조회 : map
+	@Override
+	public PdsDto getPds(HashMap<String, Object> map) {
+		PdsDto pdsDto = pdsMapper.getPds(map);
+		return pdsDto;
+	}
+
+	// 자료실 파일 조회
+	@Override
+	public List<FilesDto> getFileList(HashMap<String, Object> map) {
+		List<FilesDto> fileList = pdsMapper.getFileList(map);
+		return fileList;
+	}
+
+	// file_num 으로 조회할 파일 정보를 조회
+	@Override
+	public FilesDto getFileInfo(long file_num) {
+		FilesDto fileInfo = pdsMapper.getFileInfo(file_num); 
+		return fileInfo;
 	}
 
 	

@@ -45,22 +45,47 @@
 	OFFSET   #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
 	</select>
 	
-<!-- getPds view-->
+<!-- getPds view : 조회-->
 	<select id="getPds">
 	SELECT  IDX,
 	        MENU_id,
 	        TITLE,
 	        WRITER,
 	        CONTENT,
-		    (
-		       SELECT COUNT(FILE_NUM) FROM FILES F
-		       WHERE B.IDX = F.IDX
-		    )                                                    filescount,
-	        TO_CHAR(REGDATE, 'YYYY-MM-DD')                       REGDATE,   
+	        TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS')                       REGDATE,   
 	        HIT
-	  FROM  BOARD B
-	  WHERE IDX = ${idx}
+	  FROM  BOARD
+	  WHERE IDX = #{idx}
 	</select>	
+	
+<!-- getFileList : idx에 해당하는 파일 목록 -->
+	<select id="getFileList">
+    SELECT FILE_NUM,
+		   IDX,
+           FILENAME,
+           FILEEXT,
+           SFILENAME
+    FROM   FILES
+    WHERE  IDX = #{idx}
+	</select>
+	
+<!-- getFileInfo : file_num으로 파일정보 조회 -->
+	<select id="getFileInfo">
+    SELECT FILE_NUM,
+		   IDX,
+           FILENAME,
+           FILEEXT,
+           SFILENAME
+    FROM   FILES
+    WHERE  FILE_NUM = #{file_num}	
+	</select>
+	
+<!-- 조회수 증가-->
+	<update id="setReadCountUpdate">
+	UPDATE BOARD
+	SET    HIT = HIT + 1
+	WHERE  IDX = #{idx} 
+	</update>
 	
 <!-- setWrite : Board에 저장 -->
 	<insert id="setWrite">
@@ -81,5 +106,8 @@
 		INTO files VALUES ((SELECT NVL(MAX(FILE_NUM), 0) FROM FILES) +#{i} +1, (SELECT MAX(IDX) FROM BOARD), #{file.filename}, #{file.fileext}, #{file.sfilename})
 	</foreach>
 	</insert>
+	
+
+	
 	
 </mapper>
